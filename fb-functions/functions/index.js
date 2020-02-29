@@ -4,13 +4,17 @@ const imageToBase64 = require('image-to-base64');
 const admin = require('firebase-admin');
 
 
-
+// Firebase setup
+// This is needed for both rtdb and firestore
 let serviceAccount = require("./service-account-file.json");
-
 let app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://slohacks-269509.firebaseio.com"
 });
+
+
+const imageDetectionclient = new vision.ImageAnnotatorClient();
+
 
 //
 // Use this for firebase realtime db
@@ -36,12 +40,33 @@ const imageDataCollectionRef = db.collection('image-data');
 //   })
 
 
+const getFacesFromImage = async function (base64Img) {
+  const [ result ] = await imageDetectionclient.faceDetection(Buffer.from(base64Img, 'base64'));
+
+  const faces = result.faceAnnotations;
+  console.log('Faces:');
+  faces.forEach((face, i) => {
+    console.log(`  Face #${i + 1}:`);
+    console.log(`    Joy: ${face.joyLikelihood}`);
+    console.log(`    Anger: ${face.angerLikelihood}`);
+    console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+    console.log(`    Surprise: ${face.surpriseLikelihood}`);
+  });
+}
+
+// Real time subscription to image-data collection
 let rtObserver = imageDataCollectionRef.onSnapshot(snapshot => {
   console.log("updated")
   snapshot.forEach((doc) => {
-      console.log(doc.data())
-    });
+    const docData = doc.data();
 
+    // Grab current image that's base 64 encoded 
+    const currentImage = docData.currentImage;
+
+    console.log(currentImage);
+
+    getFacesFromImage(currentImage)
+  })
 })
 
 const faceDetectionTest = async function () {
@@ -67,7 +92,7 @@ const faceDetectionTest = async function () {
 
 }
 
-faceDetectionTest()
+// faceDetectionTest()
 
 // Test helloWorld cloud function that triggers on http request
 exports.helloWorld = functions.https.onRequest((req, res) => {
