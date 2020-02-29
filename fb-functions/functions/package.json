@@ -12,6 +12,7 @@
     "node": "8"
   },
   "dependencies": {
+    "@google-cloud/vision": "^1.9.0",
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
     "image-to-base64": "^2.0.1"
