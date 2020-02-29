@@ -16,14 +16,14 @@ let app = admin.initializeApp({
 const imageDetectionclient = new vision.ImageAnnotatorClient();
 
 
-//
-// Use this for firebase realtime db
-// let db = app.database();
-// let ref = db.ref();
 
-// ref.on("value", (snapshot) => {
-//     console.log(snapshot.val())
-//   });
+// Use this for firebase realtime db
+let db = app.database();
+let ref = db.ref();
+
+ref.on("value", (snapshot) => {
+    console.log(snapshot.val())
+  });
 
 
 
@@ -51,5 +51,12 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
   console.log("hello")
 });
 
-
+// Cloud function to handle face detection
+// Listens for changes in images object in rtdb and runs face detection stuff 
+// on that imgs
+exports.handleFaceDetection = functions.database.ref()
+  .onUpdate((snapshot, context) => {
+    console.log('updated rtdb');
+    console.log("snapshot ", snapshot)
+  });
 
