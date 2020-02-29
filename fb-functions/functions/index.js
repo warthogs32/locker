@@ -12,18 +12,28 @@ let app = admin.initializeApp({
   databaseURL: "https://slohacks-269509.firebaseio.com"
 });
 
-let db = app.database();
-let ref = db.ref();
-// var imageDataRef = ref.child('object');
-// let imageDataCollectionRef = ref.collection("image-data")
+//
+// Use this for firebase realtime db
+// let db = app.database();
+// let ref = db.ref();
+
+// ref.on("value", (snapshot) => {
+//     console.log(snapshot.val())
+//   });
 
 
+//
+// Use this for firestore
+const db = admin.firestore();
+const imageDataCollectionRef = db.collection('image-data'); 
 
-ref.on("value", (snapshot) => {
-    console.log(snapshot.val())
-  });
-
-
+imageDataCollectionRef.get()
+  .then(snapshot => {
+    snapshot.forEach((doc) => {
+      // console.log(doc.id, '=>', doc.data());
+      console.log(doc.data())
+    });
+  })
 
 
 const faceDetectionTest = async function () {
