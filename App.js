@@ -3,11 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
 
-console.log("shot")
-
   return (
     <View style={styles.container}>
-      <Text>some shit</Text>
+      <Text>start integrating lib</Text>
     </View>
   );
 }
