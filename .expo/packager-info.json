@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2596,
+  "expoServerNgrokUrl": "https://ig-w28.anonymous.locker.exp.direct",
+  "packagerNgrokUrl": "https://packager.ig-w28.anonymous.locker.exp.direct",
+  "ngrokPid": 2606,
+  "webpackServerPort": null
+}
