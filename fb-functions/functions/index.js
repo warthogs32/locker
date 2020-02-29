@@ -22,9 +22,14 @@ let db = app.database();
 let ref = db.ref();
 
 ref.on("value", (snapshot) => {
-    console.log(snapshot.val())
-  });
+  console.log(snapshot.val())
+});
 
+let imgDataRef = db.ref("image_data")
+imgDataRef.on("value", (snapshot) => {
+  console.log("image data changed")
+  console.log("img data", snapshot.val())
+});
 
 
 const getFacesFromImage = async function (base64Img) {
@@ -54,7 +59,7 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 // Cloud function to handle face detection
 // Listens for changes in images object in rtdb and runs face detection stuff 
 // on that imgs
-exports.handleFaceDetection = functions.database.ref()
+exports.handleFaceDetection = functions.database.ref("/image_data")
   .onUpdate((snapshot, context) => {
     console.log('updated rtdb');
     console.log("snapshot ", snapshot)
