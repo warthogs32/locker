@@ -27,14 +27,22 @@ let app = admin.initializeApp({
 const db = admin.firestore();
 const imageDataCollectionRef = db.collection('image-data'); 
 
-imageDataCollectionRef.get()
-  .then(snapshot => {
-    snapshot.forEach((doc) => {
-      // console.log(doc.id, '=>', doc.data());
+// imageDataCollectionRef.get()
+//   .then(snapshot => {
+//     snapshot.forEach((doc) => {
+//       // console.log(doc.id, '=>', doc.data());
+//       console.log(doc.data())
+//     });
+//   })
+
+
+let rtObserver = imageDataCollectionRef.onSnapshot(snapshot => {
+  console.log("updated")
+  snapshot.forEach((doc) => {
       console.log(doc.data())
     });
-  })
 
+})
 
 const faceDetectionTest = async function () {
   const client = new vision.ImageAnnotatorClient();
