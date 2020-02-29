@@ -13,9 +13,18 @@ let app = admin.initializeApp({
 });
 
 let db = app.database();
+let ref = db.ref();
+// var imageDataRef = ref.child('object');
+// let imageDataCollectionRef = ref.collection("image-data")
 
 
-console.log(db)
+
+ref.on("value", (snapshot) => {
+    console.log(snapshot.val())
+  });
+
+
+
 
 const faceDetectionTest = async function () {
   const client = new vision.ImageAnnotatorClient();
