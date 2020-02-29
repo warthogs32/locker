@@ -26,19 +26,6 @@ const imageDetectionclient = new vision.ImageAnnotatorClient();
 //   });
 
 
-//
-// Use this for firestore
-const db = admin.firestore();
-const imageDataCollectionRef = db.collection('image-data'); 
-
-// imageDataCollectionRef.get()
-//   .then(snapshot => {
-//     snapshot.forEach((doc) => {
-//       // console.log(doc.id, '=>', doc.data());
-//       console.log(doc.data())
-//     });
-//   })
-
 
 const getFacesFromImage = async function (base64Img) {
   const [ result ] = await imageDetectionclient
@@ -55,26 +42,6 @@ const getFacesFromImage = async function (base64Img) {
   });
 }
 
-// Real time subscription to image-data collection
-let rtObserver = imageDataCollectionRef.onSnapshot(snapshot => {
-  console.log("updated")
-  snapshot.forEach((doc) => {
-    const docData = doc.data();
-
-    // Grab current image that's base 64 encoded 
-    const currentImage = docData.currentImage;
-
-    getFacesFromImage(currentImage)
-  })
-})
-
-
-myFunction(a, b, 
-  function () {
-    
-  });
-
-
 
 
 
@@ -84,13 +51,5 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
   console.log("hello")
 });
 
-// Cloud function to run facial detection processes on images
-// Trigger on firebase image collection update
-// exports.facialDetection = functions.
-exports.myFunction = functions.firestore
-  .document('image-data')
-  .onWrite((change, context) => {
-    console.log("change: ", change);
-  }); 
 
 
