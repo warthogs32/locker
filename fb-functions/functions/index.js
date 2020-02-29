@@ -8,23 +8,20 @@ const faceDetectionTest = async function () {
 
   const fileName = './2uglies.jpg'; 
 
-
   imageToBase64(fileName)
-  .then(async (response) => {
-    const [result] = await client.faceDetection(fileName);
+    .then(async (base64Img) => {
+      const [ result ] = await client.faceDetection(Buffer.from(base64Img, 'base64'));
 
-    const faces = result.faceAnnotations;
-    console.log('Faces:');
-    faces.forEach((face, i) => {
-      console.log(`  Face #${i + 1}:`);
-      console.log(`    Joy: ${face.joyLikelihood}`);
-      console.log(`    Anger: ${face.angerLikelihood}`);
-      console.log(`    Sorrow: ${face.sorrowLikelihood}`);
-      console.log(`    Surprise: ${face.surpriseLikelihood}`);
+      const faces = result.faceAnnotations;
+      console.log('Faces:');
+      faces.forEach((face, i) => {
+        console.log(`  Face #${i + 1}:`);
+        console.log(`    Joy: ${face.joyLikelihood}`);
+        console.log(`    Anger: ${face.angerLikelihood}`);
+        console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+        console.log(`    Surprise: ${face.surpriseLikelihood}`);
+      });
     });
-  });
-
-  
   
 
 }
