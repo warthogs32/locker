@@ -29,19 +29,21 @@ const App = props => {
   const [ isDataLoaded, setIsDataLoaded ] = useState(false);
   const [ locationData, setLocationData ] = useState([]);
   const [ imageData, setImageData ] = useState([]);
+  const [ lockState, setLockState ] = useState(true);
+
+  const db = firebase.database();
+  const dbRef = db.ref();
 
   // Subscribe state to rtdb on component mount
   useEffect(() => {
-    const db = firebase.database();
-    const dbRef = db.ref();
-
     dbRef.on('value', snapshot => {
       console.log(snapshot.val())
       if (!!snapshot.val()) {
         setIsDataLoaded(true);
         
-        setLocationData(snapshot.val().location_data)
+        setLocationData(snapshot.val().location_data);
         setImageData(snapshot.val().image_data);
+        setLockState(snapshot.val().boxLocked);
 
       }
       
@@ -57,7 +59,9 @@ const App = props => {
         <div className="flex-container-center">
           <RealTimeImage imageData={imageData}/>
           <div>
-            <PrimaryControls/>
+            <PrimaryControls 
+              lockState={lockState}
+              db={db}/>
             <Map locationData={locationData}/>
           </div>
         </div>

@@ -9,7 +9,7 @@ import './index.css';
 
 const useStyles = makeStyles({
   root: {
-    width: "45%",
+    // width: "45%",
     margin: "1em"
   },
   bullet: {
@@ -57,7 +57,7 @@ const Map = props => {
           </h2>
           <p className="center-text">Real-time location tracking</p>
           
-          <div style={{ height: '100%', width: '100%' }}>
+          <div style={{ height: '80%', width: '100%' }}>
             <GoogleMapReact
               bootstrapURLKeys={{ 
                 key: "AIzaSyDGzlHi8HcYiGxpyLlO8LhLhtaiWlMzJw0"
