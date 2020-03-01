@@ -53,8 +53,11 @@ const App = props => {
     return (
       <div className="App">
         <Navbar/>
-        <RealTimeImage imageData={imageData}/>
-        <Map locationData={locationData}/>
+        <div className="flex-container-center">
+          <RealTimeImage imageData={imageData}/>
+          <Map locationData={locationData}/>
+        </div>
+        
 
       </div>
     );

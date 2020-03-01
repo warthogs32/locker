@@ -1,6 +1,7 @@
 #Map {
   height: 20em;
-  width: 40%;
+  /* width: 45%; */
+  margin-left: 1em;
 }
 
 .marker {
