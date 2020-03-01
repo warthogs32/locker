@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
-import GoogleMapReact from 'google-map-react';
 
 import Navbar from '../Navbar';
 import Map from '../Map';
@@ -38,8 +37,10 @@ const App = props => {
       console.log(snapshot.val())
       if (!!snapshot.val()) {
         setIsDataLoaded(true);
-
-        setLocationData(snapshot.val().location_data);
+        
+        let locationData = snapshot.val().location_data;
+        setLocationData(locationData[Object.keys(locationData)[Object.keys(locationData).length - 1]])
+        
         setImageData(snapshot.val().image_data);
 
       }

@@ -30,6 +30,7 @@ const Map = props => {
       >
         Where is my Telementary Box?
       </h2>
+      <p className="center-text">Real-time location tracking</p>
       
       <div style={{ height: '100%', width: '100%' }}>
         <GoogleMapReact
