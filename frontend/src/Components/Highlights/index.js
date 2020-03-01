@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Modal } from '@material-ui/core';
 
 import "./index.css";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     // width: "45%",
     margin: "1em"
@@ -20,12 +20,36 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const Highlights = props => {
   const { imageData } = props; 
   const [ highlights, setHighlights] = React.useState([]);
   const [ isModalExpanded, setIsModalExpanded ] = React.useState(false);
+  const [modalStyle] = React.useState(getModalStyle);
 
   const classes = useStyles();
 
@@ -39,30 +63,53 @@ const Highlights = props => {
       }
     });
 
-    setHighlights(entriesWithFaces.reverse())  
+    if (entriesWithFaces.length > highlights.length) {
+      console.log("sgsadf")
+      // setHighlights(entriesWithFaces.reverse());
+      console.log(entriesWithFaces.reverse());
+    }
 
   }, [imageData])
 
 
   if (!!highlights && highlights.length > 0) {
     return (
-      <Card className={classes.root}>
-        <CardContent>
-          <div id="Highlights">
-            <h2 className="center-text"
-              style={{
-                fontWeight: "normal"
-              }}
+      <div>
+        <Card className={classes.root}>
+          <CardContent>
+            <div id="Highlights" className="pointer-on-hover"
+              onClick={setIsModalExpanded(true)}
             >
-              Highlights you may have missed
-            </h2>
+              <h2 className="center-text"
+                style={{
+                  fontWeight: "normal"
+                }}
+              >
+                Highlights you may have missed
+              </h2>
+              
+              <img src={`data:image/png;base64,${highlights[0].img_src}`}/>
+    
+    
+            </div>
+          </CardContent>
+        </Card>
+
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={setIsModalExpanded(true)}
+          onClose={setIsModalExpanded(false)}
+        >
+          <div style={modalStyle} className={classes.paper}>
+            <h2 id="simple-modal-title">Text in a modal</h2>
+            <p id="simple-modal-description">
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
             
-            <img src={`data:image/png;base64,${highlights[0].img_src}`}/>
-  
-  
           </div>
-        </CardContent>
-      </Card>
+        </Modal>
+      </div>
     )
   }
 
