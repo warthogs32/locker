@@ -3,8 +3,6 @@ import * as firebase from 'firebase';
 
 import Navbar from '../Navbar';
 
-import { useList } from 'react-firebase-hooks/database';
-
 import './App.css';
 
 
