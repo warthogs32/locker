@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as firebase from 'firebase';
 import ImageResizer from 'react-native-image-resizer';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { Accelerometer } from 'expo-sensors'; 
 
 import {
   View,
@@ -18,7 +19,7 @@ import {
 
 //define how often data is sent to the database in milliseconds
 const location_update_frequency = 5000;
-const image_update_frequency = 20000;
+const image_update_frequency = 5000;
 
 let firebaseConfig = {
   apiKey: "AIzaSyDXHTIuyXFoHfzDM0nkRmkVMEa2B2H8hxY",
@@ -31,7 +32,6 @@ let firebaseConfig = {
   measurementId: "G-VJN70F6YHT"
 };
 // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
 export default class App extends React.Component {
@@ -41,20 +41,15 @@ export default class App extends React.Component {
     this.state = {
       hasPermission: null,
       type: Camera.Constants.Type.front,
-
       lng: 0, 
-      lat: 0
+      lat: 0,
+      accel_data: 0
     }
 
     this.takePhoto = async (callback) => {
       if (this.camera) {
         let photo = await this.camera.takePictureAsync({
-          // base64: true
         }).then((imgData) => {
-
-          // console.log(resizedImg)
-
-          // ImageResizer.createResizedImage('data:image/jpg' + data, 256, 512, "JPEG")
 
           callback(imgData)
         })
@@ -75,10 +70,7 @@ export default class App extends React.Component {
     const db = firebase.database();
     const dbRef = db.ref();
 
-    // console.log("db ref:, " , dbRef);
-
     dbRef.on('value', snapshot => {
-      // console.log(snapshot.val())
       if (!!snapshot.val()) {
         
 
@@ -127,25 +119,29 @@ export default class App extends React.Component {
 
           const resizedImgBase64 = resizedImg.base64
 
-          // console.log(resizedImgBase64)
-
-          // db.ref('/image_data/{id}/img_src').putString(
-          //   img, 'base64'
-          // )
-
-          // console.log(img)
-          // console.log("length ", img.length())
-
           db.ref('image_data').push({
             img_src: resizedImgBase64
           });
 
         }
       );
-    }, 5000)
+    }, image_update_frequency)
 
-  }      
+  //get accelerometer data
+
+  Accelerometer.setUpdateInterval(16);
+  this._subscription = Accelerometer.addListener(accelerometerData =>     {
+    this.setState({accel_data: accelerometerData})
+  });
+
+  console.log("ACCEL DATA");
+  console.log(this.state);
+
+  // let { x, y, z } = accel_data;  
+  }
+
   render() {
+
     if (this.state.hasPermission) {
       return (
         <View style={{flex: 1}}>
@@ -170,6 +166,7 @@ export default class App extends React.Component {
     );
   }
 
+  
 }
 
 const styles = StyleSheet.create({
