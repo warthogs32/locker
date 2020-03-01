@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import GoogleMapReact from 'google-map-react';
 
 import Navbar from '../Navbar';
+import Map from '../Map';
 
 import './App.css';
 
@@ -22,18 +23,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-// Marker for map
-const Marker = (props) => {
-  const { color, name, id } = props;
-  return (
-    <div className="marker"
-      style={{ backgroundColor: color, cursor: 'pointer'}}
-      title={name}
-    />
-  );
-};
-
-
 
 const App = props => {
   const [ isDataLoaded, setIsDataLoaded ] = useState(false);
@@ -48,14 +37,10 @@ const App = props => {
     dbRef.on('value', snapshot => {
       console.log(snapshot.val())
       if (!!snapshot.val()) {
-        console.log("here")
-
         setIsDataLoaded(true);
 
         setLocationData(snapshot.val().location_data);
         setImageData(snapshot.val().image_data);
-
-        console.log(snapshot.val())
 
       }
       
@@ -65,29 +50,11 @@ const App = props => {
 
 
   if (isDataLoaded) {
-    console.log("location: ", locationData)
-    console.log("location: ", imageData)
-
     return (
       <div className="App">
         <Navbar/>
 
-        {/* Map */}
-        <div style={{ height: '100vh', width: '100%' }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ 
-              key: "AIzaSyDGzlHi8HcYiGxpyLlO8LhLhtaiWlMzJw0"
-            }}
-            defaultCenter={locationData}
-            defaultZoom={10}
-          >
-            <Marker
-              lat={locationData.lat}
-              lng={locationData.lng}
-              text=""
-            />
-          </GoogleMapReact>
-        </div>
+        <Map locationData={locationData}/>
 
       </div>
     );
