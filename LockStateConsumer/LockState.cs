@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace LockStateConsumer
 {
-    public class LockStateEnum
+    public class LockState
     {
-        public enum state
-        {
-            locked,
-            unlocked
-        }
+        public int Id { get; set; }
+        public LockStateEnum State { get; set; }
     }
 }
