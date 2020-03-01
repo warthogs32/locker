@@ -56,12 +56,13 @@ namespace LockStateConsumer
                     port.Write("u");
                 }
                 port.Close();
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 port.Open();
-                port.Read(receivedValue, 0, 16);
+                port.Read(receivedValue, 0, port.BytesToRead);
                 foreach (char i in receivedValue)
                 {
-                    if(i != ',')
+                    arduinoToFirebase = string.Empty;
+                    while(i != ',')
                     {
                         arduinoToFirebase += i;
                     }
@@ -72,7 +73,7 @@ namespace LockStateConsumer
                 Array.Clear(receivedValue, 0, receivedValue.Length);
                 toPost.Clear();
                 port.Close();
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 port.Open();
             }
             port.Close();
