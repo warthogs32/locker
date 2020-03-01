@@ -59,7 +59,10 @@ namespace LockStateConsumer
                 port.Open();
                 port.Read(receivedValue, 0, 3);
                 arduinoToFirebase = new string(receivedValue);
-                var PostToFirebase = ultrasonicDb.Post(arduinoToFirebase);
+                if (arduinoToFirebase != "\r\n4")
+                {
+                    var PostToFirebase = ultrasonicDb.Post(arduinoToFirebase);
+                }
                 Array.Clear(receivedValue, 0, 3);
                 port.Close();
                 Thread.Sleep(1000);
