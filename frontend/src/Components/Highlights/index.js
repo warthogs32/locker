@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Modal } from '@material-ui/core';
 
@@ -6,7 +6,7 @@ import "./index.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // width: "45%",
+    width: "50%",
     margin: "1em"
   },
   bullet: {
@@ -47,116 +47,65 @@ function getModalStyle() {
 
 const Highlights = props => {
   const { imageData } = props; 
-<<<<<<< HEAD
   const [ highlights, setHighlights] = React.useState([]);
   const [ isModalExpanded, setIsModalExpanded ] = React.useState(false);
-  const [modalStyle] = React.useState(getModalStyle);
 
   const classes = useStyles();
 
-  // let a = [];
-
   // Find highlights (images with faces)
-  // useEffect(() => {
-  //   let entriesWithFaces = [];
+  useEffect(() => {
+    let entriesWithFaces = [];
 
-  //   Object.entries(imageData).forEach(image => {
-  //     if (!!image[1].facial_detection_data) {
-  //       entriesWithFaces.push(image[1])
-  //     }
-  //   });
+    Object.entries(imageData).forEach(image => {
+      if (!!image[1].facial_detection_data) {
+        entriesWithFaces.push(image[1])
+      }
+    });
 
-  //   console.log(entriesWithFaces)
+    setHighlights(entriesWithFaces.reverse())  
 
-  //   // a = entriesWithFaces.reverse();
-
-  //   // console.log(a)
-
-  //   if (entriesWithFaces.length > highlights.length) {
-  //     // setHighlights(entriesWithFaces.reverse());
-  //     // console.log(reverse);
-  //   }
-
-  // }, [imageData])
-
-  // console.log(a)
-
-  let entriesWithFaces = [];
-
-  // Object.entries(imageData).forEach(image => {
-  //   if (!!image[1].facial_detection_data) {
-  //     entriesWithFaces.push(image[1])
-  //   }
-  // });
+  }, [imageData]);
 
 
+  function renderAllEntriesWithFaces() {
+    return highlights.map(entry => {
+      console.log(entry)
+
+      return (
+        <div style={{marginBottom: "3em"}}>
+          <img src={`data:image/png;base64,${entry.img_src}`}/>
+          <p clasName="center-text">{entry.time}</p>
+        </div>
+      )
+    })
+  }
 
 
-  if (!!entriesWithFaces && entriesWithFaces.length > 0) {
-    console.log(entriesWithFaces);
-
+  if (!!highlights && highlights.length > 0) {
     return (
-      <div>
-        <Card className={classes.root}>
-          <CardContent>
-            <div id="Highlights" className="pointer-on-hover"
-              onClick={setIsModalExpanded(true)}
+      <Card className={classes.root}>
+        <CardContent>
+          <div id="Highlights">
+            <h2 className="center-text"
+              style={{
+                fontWeight: "normal"
+              }}
             >
-              <h2 className="center-text"
-                style={{
-                  fontWeight: "normal"
-                }}
-              >
-                Highlights you may have missed
-              </h2>
+              Highlights you may have missed
+            </h2>
               
-              <img src={`data:image/png;base64,${entriesWithFaces[0].img_src}`}/>
-    
-    
-            </div>
-          </CardContent>
-        </Card>
-
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={setIsModalExpanded(true)}
-          onClose={setIsModalExpanded(false)}
-        >
-          <div style={modalStyle} className={classes.paper}>
-            <h2 id="simple-modal-title">Text in a modal</h2>
-            <p id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </p>
-            
+            {renderAllEntriesWithFaces()}
+  
           </div>
-        </Modal>
-      </div>
+        </CardContent>
+      </Card>
     )
   }
 
-=======
-
-  const classes = useStyles();
-
->>>>>>> parent of ec9c5577... Display first highlight image in Highlights section
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <div id="Highlights">
-          <h2 className="center-text"
-            style={{
-              fontWeight: "normal"
-            }}
-          >
-            Highlights you may have missed
-          </h2>
-
-
-
-        </div>
-      </CardContent>
-    </Card>
+    <div>
+      Loading
+    </div>
   )
 }
 
