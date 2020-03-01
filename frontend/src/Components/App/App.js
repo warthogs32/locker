@@ -53,7 +53,7 @@ const App = props => {
     return (
       <div className="App">
         <Navbar/>
-        <RealTimeImage/>
+        <RealTimeImage imageData={imageData}/>
         <Map locationData={locationData}/>
 
       </div>
