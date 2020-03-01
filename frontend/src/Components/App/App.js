@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
+import GoogleMapReact from 'google-map-react';
 
 import Navbar from '../Navbar';
 
@@ -20,6 +21,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const App = props => {
   const [ isDataLoaded, setIsDataLoaded ] = useState(false);
@@ -48,15 +50,37 @@ const App = props => {
     });
   }, [])
 
-  console.log(locationData)
-  console.log(imageData)
 
 
-  return (
-    <div className="App">
-      <Navbar/>
+  if (isDataLoaded) {
+    console.log("location: ", locationData)
+    console.log("location: ", imageData)
 
-      App
+    return (
+      <div className="App">
+        <Navbar/>
+
+        {/* Map */}
+        <div style={{ height: '100vh', width: '100%' }}>
+          <GoogleMapReact
+            bootstrapURLKeys={{ 
+              key: "AIzaSyDGzlHi8HcYiGxpyLlO8LhLhtaiWlMzJw0"
+            }}
+            defaultCenter={locationData}
+            defaultZoom={10}
+          >
+            <AnyReactComponent
+              lat={locationData.lat}
+              lng={locationData.lng}
+              text="My Marker"
+            />
+          </GoogleMapReact>
+        </div>
+
+      </div>
+    );
+  } 
+
   return (
     <div>
       Loading
