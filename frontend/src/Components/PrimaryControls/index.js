@@ -42,28 +42,32 @@ const PrimaryControls = props => {
     <Card className={classes.root}>
       <CardContent>
         <div id="PrimaryControls">
-          {
-            lockState &&
-            <Lock
-              className={"pointer-on-hover"}
-              fontSize={"large"}
-              onClick={() => {
-                // console.log(false)
-                db.ref('boxLocked').set(false);
-              }}
-            />
-          }
-          {
-            !lockState &&
-            <LockOpen
-              className={"pointer-on-hover"}
-              fontSize={"large"}  
-              onClick={() => {
-                // console.log(true)
-                db.ref('boxLocked').set(true);
-              }}
-            />   
-          }
+          <div className="flex-container-vertically-center">
+            <p>Lock state:</p>
+
+            {
+              lockState &&
+              <Lock
+                className={"pointer-on-hover"}
+                fontSize={"large"}
+                onClick={() => {
+                  // console.log(false)
+                  db.ref('boxLocked').set(false);
+                }}
+              />
+            }
+            {
+              !lockState &&
+              <LockOpen
+                className={"pointer-on-hover"}
+                fontSize={"large"}  
+                onClick={() => {
+                  // console.log(true)
+                  db.ref('boxLocked').set(true);
+                }}
+              />   
+            }
+          </div>
         </div>
       </CardContent>
     </Card>
