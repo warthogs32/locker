@@ -1,10 +1,10 @@
 {
-  "expoServerPort": 19000,
+  "expoServerPort": null,
   "expoServerNgrokUrl": "https://gu-dqi.anonymous.android.exp.direct",
   "packagerNgrokUrl": "https://packager.gu-dqi.anonymous.android.exp.direct",
-  "ngrokPid": 11582,
+  "ngrokPid": 12115,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 11571,
+  "packagerPort": null,
+  "packagerPid": null,
   "webpackServerPort": null
 }

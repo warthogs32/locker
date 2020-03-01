@@ -14,6 +14,19 @@ import {
   Animated
 } from 'react-native';
 
+let firebaseConfig = {
+  apiKey: "AIzaSyDXHTIuyXFoHfzDM0nkRmkVMEa2B2H8hxY",
+  authDomain: "slohacks-269509.firebaseapp.com",
+  databaseURL: "https://slohacks-269509.firebaseio.com",
+  projectId: "slohacks-269509",
+  storageBucket: "slohacks-269509.appspot.com",
+  messagingSenderId: "622446993760",
+  appId: "1:622446993760:web:5db59aceda90bf6bec3e05",
+  measurementId: "G-VJN70F6YHT"
+};
+// Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+!firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
 export default class App extends React.Component {
   constructor(props) {
@@ -21,7 +34,10 @@ export default class App extends React.Component {
 
     this.state = {
       hasPermission: null,
-      type: Camera.Constants.Type.front
+      type: Camera.Constants.Type.front,
+
+      lng: 0, 
+      lat: 0
     }
 
     this.takePhoto = async () => {
@@ -37,23 +53,51 @@ export default class App extends React.Component {
 
 
   async componentDidMount() {
-    // Instead of navigator.geolocation, just use Geolocation.
-    navigator.geolocation.getCurrentPosition(
+
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({hasPermission: status === "granted"})
+
+    // setTimeout(this.takePhoto, 15000)
+
+    const db = firebase.database();
+    const dbRef = db.ref();
+
+    console.log("db ref:, " , dbRef);
+
+    dbRef.on('value', snapshot => {
+      // console.log(snapshot.val())
+      if (!!snapshot.val()) {
+        
+
+      }
+      
+    });
+
+    setInterval(() => {
+      // Instead of navigator.geolocation, just use Geolocation.
+      navigator.geolocation.getCurrentPosition(
         (position) => {
+            let coords = position.coords
+
             console.log("THIS IS YOUR POSITION:");
-            console.log(position);
+            console.log("lon: ", coords.longitude);
+            console.log("lat: ", coords.latitude);
+
+            db.ref('/location_data').push({
+              lng: coords.longitude,
+              lat: coords.latitude
+            })
         },
         (error) => {
             // See error code charts below.
             console.log("HANDLED ERR", error.code, error.message);
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+      );
+    }, 5000)
 
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasPermission: status === "granted"})
+    
 
-    setTimeout(this.takePhoto, 15000)
   }      
   render() {
     if (this.state.hasPermission) {
