@@ -14,13 +14,16 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
+def boxFullCheck(distance):
+    return distance > 0 and distance < 35
+
 def ardToDb():
     serialInput = str(ser.readline(), 'utf-8')
     list1 = serialInput.split('*')
     for i in range(len(list1)):
         list1[i] = list1[i].rstrip()
     if len(list1[0]) > 0:
-        distance = int(str(list1[0]))
+        distance = int(list1[0])
     else:
         distance = 0
     if len(list1) > 1 and len(list1[1])>0:
@@ -28,8 +31,11 @@ def ardToDb():
     else:
         boxOpen = True
 
-    db.update({"distance":distance})
+    boxFull = boxFullCheck(distance)
+
+    # db.update({"distance":distance})
     db.update({"boxOpen": boxOpen})
+    db.update({"boxFull": boxFull})
 
 
 def dbToArd():
