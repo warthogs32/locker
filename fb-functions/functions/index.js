@@ -37,15 +37,16 @@ const getFacesFromImage = async function (base64Img) {
     .faceDetection(Buffer.from(base64Img, 'base64'));
 
   const faces = result.faceAnnotations;
-  console.log('Faces:');
-  faces.forEach((face, i) => {
-    console.log(`  Face #${i + 1}:`);
-    console.log(`    Joy: ${face.joyLikelihood}`);
-    console.log(`    Anger: ${face.angerLikelihood}`);
-    console.log(`    Sorrow: ${face.sorrowLikelihood}`);
-    console.log(`    Surprise: ${face.surpriseLikelihood}`);
-  });
-
+  // console.log('Faces:');
+  // faces.forEach((face, i) => {
+  //   console.log(`  Face #${i + 1}:`);
+  //   console.log(`    Joy: ${face.joyLikelihood}`);
+  //   console.log(`    Anger: ${face.angerLikelihood}`);
+  //   console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+  //   console.log(`    Surprise: ${face.surpriseLikelihood}`);
+  // });
+  
+  console.log("faces: ", faces)
   return faces;
 }
 
@@ -61,14 +62,23 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 // Cloud function to handle face detection
 // Listens for changes in images object in rtdb and  
 // runs face detection stuff on that imgs
-exports.handleFaceDetection = functions.database.ref('/image_data/{id}')
-  .onCreate((snapshot, context) => {
+exports.handleFaceDetection = functions.database.ref('/image_data/{id}/img_src')
+  .onCreate(async (snapshot, context) => {
 
 
     console.log('updated rtdb');
-    console.log("new value ", snapshot.val())
+    console.log("new value: ", snapshot.val())
+    console.log("context: ", context)
 
-    return getFacesFromImage(snapshot.val())
+    // Save facial detection data to db under the same item
+    // return ref('/image_data/' + context.params.id)
+    //   .set(getFacesFromImage(snapshot.val().img_src));
+
+
+
+
+    return snapshot.ref.parent.child("facial_detection_data")
+      .set(await getFacesFromImage(snapshot.val()));
 
   });
   
