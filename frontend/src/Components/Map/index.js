@@ -57,7 +57,7 @@ const Map = props => {
           </h2>
           <p className="center-text">Real-time location tracking</p>
           
-          <div style={{ height: '80%', width: '100%' }}>
+          <div style={{ height: '75%', width: '100%' }}>
             <GoogleMapReact
               bootstrapURLKeys={{ 
                 key: "AIzaSyDGzlHi8HcYiGxpyLlO8LhLhtaiWlMzJw0"
