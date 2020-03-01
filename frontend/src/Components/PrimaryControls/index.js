@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 const PrimaryControls = props => {
   const classes = useStyles();
 
-  const { db, lockState, doorState } = props;
+  const { db, lockState, doorState, packageState } = props;
   
 
   // const toggleLock = nextLockState => {
@@ -76,7 +76,6 @@ const PrimaryControls = props => {
 
           <div className="flex-container-vertically-center">
             <p>Door open/closed state:</p>
-
             {
               doorState &&
               <Drafts fontSize={"large"} />
@@ -86,6 +85,19 @@ const PrimaryControls = props => {
               <Mail fontSize={"large"} />
             }
           </div>
+
+          <div className="flex-container-vertically-center">
+            <p>Package delivered state:</p>
+            {
+              packageState &&
+              <RadioButtonChecked fontSize={"large"} />
+            }
+            {
+              !packageState &&
+              <RadioButtonUnchecked fontSize={"large"} />
+            }
+          </div>
+
         </div>
       </CardContent>
     </Card>

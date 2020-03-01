@@ -31,6 +31,7 @@ const App = props => {
   const [ imageData, setImageData ] = useState([]);
   const [ lockState, setLockState ] = useState(true);
   const [ doorState, setDoorState ] = useState(true);
+  const [ packageState, setPackageState ] = useState(true);
 
   const db = firebase.database();
   const dbRef = db.ref();
@@ -46,6 +47,7 @@ const App = props => {
         setImageData(snapshot.val().image_data);
         setLockState(snapshot.val().boxLocked);
         setDoorState(snapshot.val().boxOpen);
+        setPackageState(snapshot.val().boxFull);
 
       }
       
@@ -64,7 +66,8 @@ const App = props => {
             <PrimaryControls 
               db={db}
               lockState={lockState}
-              doorState={doorState}/>
+              doorState={doorState}
+              packageState={packageState}/>
             <Map locationData={locationData}/>
           </div>
         </div>
