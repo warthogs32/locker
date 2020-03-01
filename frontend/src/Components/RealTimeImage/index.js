@@ -26,8 +26,8 @@ const useStyles = makeStyles({
 const RealTimeImage = props => {
   const { imageData } = props;
 
-  const lastImage = imageData[
-    Object.keys(imageData)[Object.keys(imageData).length - 1]] 
+  const helper = new Helper();
+  const lastImage = helper.getLastItemOfObject(imageData);
 
   const classes = useStyles();
 
