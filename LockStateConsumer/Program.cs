@@ -21,8 +21,9 @@ namespace LockStateConsumer
         {
             string lockstate = string.Empty;
             SerialPort port;
-            char[] receivedValue = new char[3];
+            char[] receivedValue = new char[16];
             string arduinoToFirebase = string.Empty;
+            List<string> toPost = new List<string>();
 
             bool run = true;
 
@@ -57,13 +58,19 @@ namespace LockStateConsumer
                 port.Close();
                 Thread.Sleep(100);
                 port.Open();
-                port.Read(receivedValue, 0, 3);
-                arduinoToFirebase = new string(receivedValue);
-                if (arduinoToFirebase != "\r\n4")
+                port.Read(receivedValue, 0, 16);
+                foreach (char i in receivedValue)
                 {
-                    var PostToFirebase = ultrasonicDb.Post(arduinoToFirebase);
+                    if(i != ',')
+                    {
+                        arduinoToFirebase += i;
+                    }
+                    toPost.Add(arduinoToFirebase);
                 }
-                Array.Clear(receivedValue, 0, 3);
+
+                toPost.ForEach(x => ultrasonicDb.Post(x));
+                Array.Clear(receivedValue, 0, receivedValue.Length);
+                toPost.Clear();
                 port.Close();
                 Thread.Sleep(100);
                 port.Open();
