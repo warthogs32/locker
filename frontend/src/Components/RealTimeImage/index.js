@@ -2,11 +2,13 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent } from '@material-ui/core';
 
+import Helper from '../../Helper';
+
 import './index.css';
 
 const useStyles = makeStyles({
   root: {
-    width: "45%",
+    // width: "45%",
     margin: "1em"
   },
   bullet: {
