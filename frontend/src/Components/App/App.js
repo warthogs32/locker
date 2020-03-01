@@ -71,9 +71,9 @@ const App = props => {
               packageState={packageState}/>
             <Map locationData={locationData}/>
           </div>
-          <Highlights imageData={imageData}/>
         </div>
         
+        <Highlights imageData={imageData}/>
 
       </div>
     );

@@ -53,26 +53,47 @@ const Highlights = props => {
 
   const classes = useStyles();
 
+  // let a = [];
+
   // Find highlights (images with faces)
-  useEffect(() => {
-    let entriesWithFaces = [];
+  // useEffect(() => {
+  //   let entriesWithFaces = [];
 
-    Object.entries(imageData).forEach(image => {
-      if (!!image[1].facial_detection_data) {
-        entriesWithFaces.push(image[1])
-      }
-    });
+  //   Object.entries(imageData).forEach(image => {
+  //     if (!!image[1].facial_detection_data) {
+  //       entriesWithFaces.push(image[1])
+  //     }
+  //   });
 
-    if (entriesWithFaces.length > highlights.length) {
-      console.log("sgsadf")
-      // setHighlights(entriesWithFaces.reverse());
-      console.log(entriesWithFaces.reverse());
-    }
+  //   console.log(entriesWithFaces)
 
-  }, [imageData])
+  //   // a = entriesWithFaces.reverse();
+
+  //   // console.log(a)
+
+  //   if (entriesWithFaces.length > highlights.length) {
+  //     // setHighlights(entriesWithFaces.reverse());
+  //     // console.log(reverse);
+  //   }
+
+  // }, [imageData])
+
+  // console.log(a)
+
+  let entriesWithFaces = [];
+
+  // Object.entries(imageData).forEach(image => {
+  //   if (!!image[1].facial_detection_data) {
+  //     entriesWithFaces.push(image[1])
+  //   }
+  // });
 
 
-  if (!!highlights && highlights.length > 0) {
+
+
+  if (!!entriesWithFaces && entriesWithFaces.length > 0) {
+    console.log(entriesWithFaces);
+
     return (
       <div>
         <Card className={classes.root}>
@@ -88,7 +109,7 @@ const Highlights = props => {
                 Highlights you may have missed
               </h2>
               
-              <img src={`data:image/png;base64,${highlights[0].img_src}`}/>
+              <img src={`data:image/png;base64,${entriesWithFaces[0].img_src}`}/>
     
     
             </div>
