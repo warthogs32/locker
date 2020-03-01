@@ -48,7 +48,7 @@ const PrimaryControls = props => {
       <CardContent>
         <div id="PrimaryControls">
           <div className="flex-container-vertically-center">
-            <p>Lock state:</p>
+            <p className="primary-control-text">Lock state:</p>
 
             {
               lockState &&
@@ -75,7 +75,7 @@ const PrimaryControls = props => {
           </div>
 
           <div className="flex-container-vertically-center">
-            <p>Door open/closed state:</p>
+            <p className="primary-control-text">Door open/closed state:</p>
             {
               doorState &&
               <Drafts fontSize={"large"} />
@@ -87,7 +87,7 @@ const PrimaryControls = props => {
           </div>
 
           <div className="flex-container-vertically-center">
-            <p>Package delivered state:</p>
+            <p className="primary-control-text">Package delivered state:</p>
             {
               packageState &&
               <RadioButtonChecked fontSize={"large"} />
