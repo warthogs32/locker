@@ -20,6 +20,7 @@ import {
 //define how often data is sent to the database in milliseconds
 const location_update_frequency = 5000;
 const image_update_frequency = 5000;
+const accel_update_frequency = 2000;
 
 let firebaseConfig = {
   apiKey: "AIzaSyDXHTIuyXFoHfzDM0nkRmkVMEa2B2H8hxY",
@@ -85,8 +86,8 @@ export default class App extends React.Component {
             let coords = position.coords
 
             console.log("THIS IS YOUR POSITION:");
-            console.log("lon: ", coords.longitude);
-            console.log("lat: ", coords.latitude);
+            // console.log("lon: ", coords.longitude);
+            // console.log("lat: ", coords.latitude);
 
             db.ref('/location_data').set({
               lng: coords.longitude,
@@ -127,21 +128,32 @@ export default class App extends React.Component {
       );
     }, image_update_frequency)
 
-  //get accelerometer data
+    
 
+    setInterval(() => {
+      console.log("here is accel")
+      console.log(this.state.accel_data)
+      db.ref('accel_data').set({
+        x: this.state.accel_data.x, 
+        y: this.state.accel_data.y,
+        z: this.state.accel_data.z
+      })
+    }, accel_update_frequency)
+
+  //get accelerometer data
+  
   Accelerometer.setUpdateInterval(16);
   this._subscription = Accelerometer.addListener(accelerometerData =>     {
     this.setState({accel_data: accelerometerData})
   });
-
-  console.log("ACCEL DATA");
-  console.log(this.state);
 
   // let { x, y, z } = accel_data;  
   }
 
   render() {
 
+    // console.log("ACCEL DATA");
+    // console.log(this.state);  
     if (this.state.hasPermission) {
       return (
         <View style={{flex: 1}}>
