@@ -1,0 +1,13 @@
+#Navbar {
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.06);
+}
+
+#navbar-title {
+  font-weight: normal;
+}
+
+#navbar-link-container {
+  height: 80%;
+  margin: auto 0;
+}
