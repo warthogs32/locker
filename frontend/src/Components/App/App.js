@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 
 import Navbar from '../Navbar';
 import RealTimeImage from '../RealTimeImage';
+import PrimaryControls from '../PrimaryControls';
 import Map from '../Map';
 
 import './App.css';
@@ -55,7 +56,10 @@ const App = props => {
         <Navbar/>
         <div className="flex-container-center">
           <RealTimeImage imageData={imageData}/>
-          <Map locationData={locationData}/>
+          <div>
+            <PrimaryControls/>
+            <Map locationData={locationData}/>
+          </div>
         </div>
         
 
