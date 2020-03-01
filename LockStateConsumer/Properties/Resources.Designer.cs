@@ -77,5 +77,14 @@ namespace LockStateConsumer.Properties {
                 return ResourceManager.GetString("url", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://slohacks-269509.firebaseio.com/ultrasonic.json.
+        /// </summary>
+        internal static string urljson {
+            get {
+                return ResourceManager.GetString("urljson", resourceCulture);
+            }
+        }
     }
 }

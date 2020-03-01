@@ -5,9 +5,12 @@ using System.Text;
 using System.Reactive.Linq;
 using System.Resources;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Net.Http;
 using System.IO.Ports;
 using Firebase.Database;
 using Firebase.Database.Query;
+using Firebase.Database.Offline;
 using Firebase.Auth;
 
 namespace LockStateConsumer
@@ -18,6 +21,8 @@ namespace LockStateConsumer
         {
             string lockstate = string.Empty;
             SerialPort port;
+            char[] receivedValue = new char[3];
+            string arduinoToFirebase = string.Empty;
 
             bool run = true;
 
@@ -35,6 +40,7 @@ namespace LockStateConsumer
                 {
                     AuthTokenAsyncFactory = () => Task.FromResult(Properties.Resources.secret)
                 });
+            var ultrasonicDb = firebase.Child("ultrasonic").AsRealtimeDatabase<string>("", "", StreamingOptions.LatestOnly, InitialPullStrategy.MissingOnly, true);
 
             while (run)
             {
@@ -48,6 +54,16 @@ namespace LockStateConsumer
                 {
                     port.Write("u");
                 }
+                port.Close();
+                Thread.Sleep(1000);
+                port.Open();
+                port.Read(receivedValue, 0, 3);
+                arduinoToFirebase = new string(receivedValue);
+                var PostToFirebase = ultrasonicDb.Post(arduinoToFirebase);
+                Array.Clear(receivedValue, 0, 3);
+                port.Close();
+                Thread.Sleep(1000);
+                port.Open();
             }
             port.Close();
             Console.WriteLine("exited");

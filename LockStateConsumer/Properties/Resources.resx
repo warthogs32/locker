@@ -123,4 +123,7 @@
   <data name="url" xml:space="preserve">
     <value>https://slohacks-269509.firebaseio.com/</value>
   </data>
+  <data name="urljson" xml:space="preserve">
+    <value>https://slohacks-269509.firebaseio.com/ultrasonic.json</value>
+  </data>
 </root>
