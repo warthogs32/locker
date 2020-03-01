@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as firebase from 'firebase';
 
 import Navbar from '../Navbar';
+import RealTimeImage from '../RealTimeImage';
 import Map from '../Map';
 
 import './App.css';
@@ -52,7 +53,7 @@ const App = props => {
     return (
       <div className="App">
         <Navbar/>
-
+        <RealTimeImage/>
         <Map locationData={locationData}/>
 
       </div>
