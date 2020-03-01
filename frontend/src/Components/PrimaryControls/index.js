@@ -1,7 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent } from '@material-ui/core';
-import { Lock, LockOpen } from '@material-ui/icons';
+import { Lock, 
+  LockOpen, 
+  Drafts, 
+  Mail, 
+  RadioButtonChecked, 
+  RadioButtonUnchecked } from '@material-ui/icons';
 
 import './index.css';
 
@@ -27,7 +32,7 @@ const useStyles = makeStyles({
 const PrimaryControls = props => {
   const classes = useStyles();
 
-  const { lockState, db } = props;
+  const { db, lockState, doorState } = props;
   
 
   // const toggleLock = nextLockState => {
@@ -66,6 +71,19 @@ const PrimaryControls = props => {
                   db.ref('boxLocked').set(true);
                 }}
               />   
+            }
+          </div>
+
+          <div className="flex-container-vertically-center">
+            <p>Door open/closed state:</p>
+
+            {
+              doorState &&
+              <Drafts fontSize={"large"} />
+            }
+            {
+              !doorState &&
+              <Mail fontSize={"large"} />
             }
           </div>
         </div>

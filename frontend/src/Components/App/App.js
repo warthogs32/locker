@@ -30,6 +30,7 @@ const App = props => {
   const [ locationData, setLocationData ] = useState([]);
   const [ imageData, setImageData ] = useState([]);
   const [ lockState, setLockState ] = useState(true);
+  const [ doorState, setDoorState ] = useState(true);
 
   const db = firebase.database();
   const dbRef = db.ref();
@@ -44,6 +45,7 @@ const App = props => {
         setLocationData(snapshot.val().location_data);
         setImageData(snapshot.val().image_data);
         setLockState(snapshot.val().boxLocked);
+        setDoorState(snapshot.val().boxOpen);
 
       }
       
@@ -60,8 +62,9 @@ const App = props => {
           <RealTimeImage imageData={imageData}/>
           <div>
             <PrimaryControls 
+              db={db}
               lockState={lockState}
-              db={db}/>
+              doorState={doorState}/>
             <Map locationData={locationData}/>
           </div>
         </div>
