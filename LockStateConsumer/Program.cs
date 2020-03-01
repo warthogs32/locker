@@ -55,7 +55,7 @@ namespace LockStateConsumer
                     port.Write("u");
                 }
                 port.Close();
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 port.Open();
                 port.Read(receivedValue, 0, 3);
                 arduinoToFirebase = new string(receivedValue);
@@ -65,7 +65,7 @@ namespace LockStateConsumer
                 }
                 Array.Clear(receivedValue, 0, 3);
                 port.Close();
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 port.Open();
             }
             port.Close();
