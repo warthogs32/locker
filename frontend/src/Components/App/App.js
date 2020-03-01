@@ -40,7 +40,7 @@ const App = props => {
   // Subscribe state to rtdb on component mount
   useEffect(() => {
     dbRef.on('value', snapshot => {
-      console.log(snapshot.val())
+      // console.log(snapshot.val())
       if (!!snapshot.val()) {
         setIsDataLoaded(true);
         
