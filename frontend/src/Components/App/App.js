@@ -38,9 +38,7 @@ const App = props => {
       if (!!snapshot.val()) {
         setIsDataLoaded(true);
         
-        let locationData = snapshot.val().location_data;
-        setLocationData(locationData[Object.keys(locationData)[Object.keys(locationData).length - 1]])
-        
+        setLocationData(snapshot.val().location_data)
         setImageData(snapshot.val().image_data);
 
       }
