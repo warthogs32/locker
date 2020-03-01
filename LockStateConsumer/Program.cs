@@ -5,6 +5,7 @@ using System.Text;
 using System.Reactive.Linq;
 using System.Resources;
 using System.Threading.Tasks;
+using System.IO.Ports;
 using Firebase.Database;
 using Firebase.Database.Query;
 using Firebase.Auth;
@@ -25,8 +26,16 @@ namespace LockStateConsumer
             while (true)
             {
                 var observable = firebase.Child("lockstate").AsObservable<string>().Subscribe(d => lockstate = d.Object);
-                Console.WriteLine(lockstate);
             }
+            if(lockstate == "locked")
+            {
+
+            }
+            if(lockstate == "unlocked")
+            {
+
+            }
+
 
 
         }
