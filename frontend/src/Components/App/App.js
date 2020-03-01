@@ -7,7 +7,7 @@ import Navbar from '../Navbar';
 import './App.css';
 
 
-
+// Firebase init
 const firebaseConfig = {
   apiKey: "AIzaSyDXHTIuyXFoHfzDM0nkRmkVMEa2B2H8hxY",
   authDomain: "slohacks-269509.firebaseapp.com",
@@ -21,7 +21,19 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+// Marker for map
+const Marker = (props) => {
+  const { color, name, id } = props;
+  return (
+    <div className="marker"
+      style={{ backgroundColor: color, cursor: 'pointer'}}
+      title={name}
+    />
+  );
+};
+
+
 
 const App = props => {
   const [ isDataLoaded, setIsDataLoaded ] = useState(false);
@@ -69,10 +81,10 @@ const App = props => {
             defaultCenter={locationData}
             defaultZoom={10}
           >
-            <AnyReactComponent
+            <Marker
               lat={locationData.lat}
               lng={locationData.lng}
-              text="My Marker"
+              text=""
             />
           </GoogleMapReact>
         </div>

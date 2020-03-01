@@ -12,7 +12,8 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-firebase-hooks": "^2.1.1",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
     "start": "react-scripts start",
