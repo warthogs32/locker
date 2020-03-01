@@ -5,6 +5,7 @@ import Navbar from '../Navbar';
 import RealTimeImage from '../RealTimeImage';
 import PrimaryControls from '../PrimaryControls';
 import Map from '../Map';
+import Highlights from '../Highlights';
 
 import './App.css';
 
@@ -70,6 +71,7 @@ const App = props => {
               packageState={packageState}/>
             <Map locationData={locationData}/>
           </div>
+          <Highlights imageData={imageData}/>
         </div>
         
 
