@@ -54,13 +54,15 @@ namespace LockStateConsumer
                     port.Write("u");
                 }
                 port.Close();
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 port.Open();
+                arduinoToFirebase = string.Empty;
                 arduinoToFirebase = port.ReadLine();
                 Console.WriteLine(arduinoToFirebase);
                 var postToFirebase =  ultrasonicDb.Post(arduinoToFirebase);
+                arduinoToFirebase = string.Empty;
                 port.Close();
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 port.Open();
             }
             port.Close();
