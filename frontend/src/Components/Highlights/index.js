@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Modal } from '@material-ui/core';
 
@@ -47,6 +47,7 @@ function getModalStyle() {
 
 const Highlights = props => {
   const { imageData } = props; 
+<<<<<<< HEAD
   const [ highlights, setHighlights] = React.useState([]);
   const [ isModalExpanded, setIsModalExpanded ] = React.useState(false);
   const [modalStyle] = React.useState(getModalStyle);
@@ -134,12 +135,29 @@ const Highlights = props => {
     )
   }
 
+=======
+
+  const classes = useStyles();
+
+>>>>>>> parent of ec9c5577... Display first highlight image in Highlights section
   return (
-    <div>
-      Loading
-    </div>
+    <Card className={classes.root}>
+      <CardContent>
+        <div id="Highlights">
+          <h2 className="center-text"
+            style={{
+              fontWeight: "normal"
+            }}
+          >
+            Highlights you may have missed
+          </h2>
+
+
+
+        </div>
+      </CardContent>
+    </Card>
   )
-  
 }
 
 export default Highlights;
