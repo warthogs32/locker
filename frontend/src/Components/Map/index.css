@@ -1,3 +1,8 @@
+#Map {
+  height: 20em;
+  width: 40%;
+}
+
 .marker {
   position: absolute;
   top: 50%;

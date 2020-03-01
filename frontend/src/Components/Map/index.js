@@ -22,10 +22,16 @@ const Map = props => {
   const { locationData } = props;
 
   return (
-    <div className="Map">
-      <h2 className="text-align-center">Where is my Telementary Box?</h2>
+    <div id="Map">
+      <h2 className="center-text"
+        style={{
+          fontWeight: "normal"
+        }}
+      >
+        Where is my Telementary Box?
+      </h2>
       
-      <div style={{ height: '40vh', width: '40%' }}>
+      <div style={{ height: '100%', width: '100%' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ 
             key: "AIzaSyDGzlHi8HcYiGxpyLlO8LhLhtaiWlMzJw0"
