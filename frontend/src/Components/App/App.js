@@ -22,8 +22,9 @@ firebase.initializeApp(firebaseConfig);
 
 
 const App = props => {
-  const [ locationData, setLocationData ] = useState({});
-  const [ imageData, setImageData ] = useState({});
+  const [ isDataLoaded, setIsDataLoaded ] = useState(false);
+  const [ locationData, setLocationData ] = useState([]);
+  const [ imageData, setImageData ] = useState([]);
 
   // Subscribe state to rtdb on component mount
   useEffect(() => {
@@ -31,9 +32,20 @@ const App = props => {
     const dbRef = db.ref();
 
     dbRef.on('value', snapshot => {
-      setLocationData(snapshot.val().geo_data);
-      setImageData(snapshot.val().image_data);
-    })
+      console.log(snapshot.val())
+      if (!!snapshot.val()) {
+        console.log("here")
+
+        setIsDataLoaded(true);
+
+        setLocationData(snapshot.val().location_data);
+        setImageData(snapshot.val().image_data);
+
+        console.log(snapshot.val())
+
+      }
+      
+    });
   }, [])
 
   console.log(locationData)
@@ -45,8 +57,11 @@ const App = props => {
       <Navbar/>
 
       App
+  return (
+    <div>
+      Loading
     </div>
-  );
+  )
 }
 
 export default App;
