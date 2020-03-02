@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import './styles/containers.css'
 import './styles/misc.css'
+import './styles/text.css'
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

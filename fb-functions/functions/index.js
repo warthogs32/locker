@@ -62,7 +62,11 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 // Cloud function to handle face detection
 // Listens for changes in images object in rtdb and  
 // runs face detection stuff on that imgs
-exports.handleFaceDetection = functions.database.ref('/image_data/{id}/img_src')
+exports.handleFaceDetection = functions
+  .runWith({
+    memory: '1GB'
+  })
+  .database.ref('/image_data/{id}/img_src')
   .onCreate(async (snapshot, context) => {
 
 
