@@ -6,8 +6,8 @@ import "./index.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "50%",
-    margin: "1em"
+    width: "40%",
+    margin: "0 auto"
   },
   bullet: {
     display: 'inline-block',
