@@ -17,12 +17,17 @@ namespace LockStateConsumer
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            string lockstate = string.Empty;
-            SerialPort port;
-            string arduinoToFirebase = string.Empty;
+        public static FirebaseClient FirebaseConnector = new FirebaseClient(Properties.Resources.url,
+                new FirebaseOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(Properties.Resources.secret)
+                });
 
+        public static string Lockstate = string.Empty;
+        public static string ArduinoToFirebase = string.Empty;
+        public static void Main(string[] args)
+        {
+            SerialPort port;
             bool run = true;
 
             Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
@@ -32,42 +37,39 @@ namespace LockStateConsumer
 
             };
 
-            port = new SerialPort("COM7", 9600);
+            port = new SerialPort("COM4", 9600);
             port.Open();
-            var firebase = new FirebaseClient(Properties.Resources.url,
-                new FirebaseOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(Properties.Resources.secret)
-                });
-            var ultrasonicDb = firebase.Child("ultrasonic").AsRealtimeDatabase<string>("", "", StreamingOptions.LatestOnly, InitialPullStrategy.MissingOnly, true);
+            var ultrasonicDb = FirebaseConnector.Child("ultrasonic").AsRealtimeDatabase<string>("", "", StreamingOptions.LatestOnly, InitialPullStrategy.MissingOnly, true);
 
             while (run)
             {
-                var observable = firebase.Child("lockstate").AsObservable<string>().Subscribe(d => lockstate = d.Object);
-                Console.WriteLine(lockstate);
-                if (lockstate == "locked")
-                {
-                    port.Write("l");
-                }
-                if (lockstate == "unlocked")
-                {
-                    port.Write("u");
-                }
-                port.Close();
-                Thread.Sleep(100);
-                port.Open();
-                arduinoToFirebase = string.Empty;
-                arduinoToFirebase = port.ReadLine();
-                Console.WriteLine(arduinoToFirebase);
-                var postToFirebase =  ultrasonicDb.Post(arduinoToFirebase);
-                arduinoToFirebase = string.Empty;
-                port.Close();
-                Thread.Sleep(100);
-                port.Open();
+                ToArduino(port);
+                ToFirebase(port, ultrasonicDb);
             }
             port.Close();
             Console.WriteLine("exited");
             
+        }
+
+        public static void ToArduino(SerialPort sp)
+        {
+            var observable = FirebaseConnector.Child("lockstate").AsObservable<string>().Subscribe(d => Lockstate = d.Object);
+            Console.WriteLine(Lockstate);
+            if (Lockstate == "locked")
+            {
+                sp.Write("l");
+            }
+            if (Lockstate == "unlocked")
+            {
+                sp.Write("u");
+            }
+        }
+
+        public static void ToFirebase(SerialPort sp, RealtimeDatabase<string> db)
+        {
+            ArduinoToFirebase = sp.ReadLine();
+            Console.WriteLine(ArduinoToFirebase);
+            var postToFirebase = db.Post(ArduinoToFirebase);
         }
     }
 }
